@@ -39,14 +39,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     }
 });
 
-/* chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-    if (msg.text === 'toggleKeyword') {
-        console.log(msg.keywords);
-        localStorage.setItem('keywords', JSON.stringify(msg.keywords));
-        keywords = JSON.parse(localStorage.getItem('keywords'));
-    }
-}); */
-
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
 });
