@@ -1,0 +1,8 @@
+.chip-container {
+    min-width: 200px;
+    margin: 10px 10px 10px 10px;
+}
+.introText {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+}
