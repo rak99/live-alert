@@ -1,4 +1,5 @@
 
+let isProUser = false;
 
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.chips');
@@ -36,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var instances = M.Chips.init(elems, {
     data: localStorage.getItem('keywords') !== null ? JSON.parse(localStorage.getItem('keywords')) : [],
-    limit: Infinity,
-    // Add something like limit: IsProUser === true ? 25 : 5
+    limit: isProUser === true ? 25 : 5,
+    // Add something like limit: 
     minLength: 1
   });
 
