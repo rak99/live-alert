@@ -3,6 +3,12 @@ let keywords = [];
 const urlRegexTwitch = new RegExp('^(http(s)?:\/\/)?((w){3}.)?twitch?(\.tv)?\/.+');
 let whatTab = '';
 
+chrome.storage.sync.get(['username'], function(items) {
+    if (items.username) {
+        console.log(items);
+    }
+});
+
 // Do Twitch connect auth thing, then check user's followers and make them alert by default, really good idea.
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -27,7 +33,7 @@ chrome.storage.sync.get(['keywords'], function(items) {
                 fetch(`https://api.twitch.tv/helix/users?login=earthmother`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
                     console.log(result);
                     if (JSON.parse(result).data.length > 0) {
-                        alert(`${streamer} is currently live, twitch.tv/${streamer}`);
+                        // alert(`${streamer} is currently live, twitch.tv/${streamer}`);
                     } else {
                         console.log(keywords.indexOf(streamer));
                         keywords = keywords.slice(keywords.indexOf(streamer), keywords.length);

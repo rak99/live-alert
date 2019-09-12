@@ -6,3 +6,12 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 18px;
 }
+.row {
+    min-width: max-content;
+    margin: 0;
+}
+
+.btn-small {
+    display: flex;
+    justify-content: flex-end;
+}
