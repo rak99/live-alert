@@ -35,12 +35,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  var instances = M.Chips.init(elems, {
-    data: localStorage.getItem('keywords') !== null ? JSON.parse(localStorage.getItem('keywords')) : [],
-    limit: isProUser === true ? 25 : 5,
-    // Add something like limit: 
-    minLength: 1
-  });
+  if (localStorage.getItem('names')) {
+    var instances = M.Chips.init(elems, {
+      data: JSON.parse(localStorage.getItem('names')) !== null ? JSON.parse(localStorage.getItem('names')) : [],
+      limit: 100,
+      // isProUser === true ? 25 : 5,
+      // Add something like limit: 
+      minLength: 1
+    });
+  } else {
+    var instances = M.Chips.init(elems, {
+      data: localStorage.getItem('keywords') !== null ? JSON.parse(localStorage.getItem('keywords')) : [],
+      limit: 100,
+      // isProUser === true ? 25 : 5,
+      // Add something like limit: 
+      minLength: 1
+    });
+  }
 
   if (localStorage.getItem('keywords') !== null) {
     if (localStorage.getItem('keywords').indexOf('[') >= 0) {

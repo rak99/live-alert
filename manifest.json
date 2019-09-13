@@ -18,9 +18,8 @@
     "description": "Never again type your O's out on twitch! e.g N OMEGALUL or WH OMEGALUL, now - just type it normally and let us do the work for you!",
     "author": "Rhenier Kloppers",
     "browser_action": {
-        "default_icon": "./icons/omegalul.png",
-        "default_title": "Live Alert",
-        "default_popup": "username.html"
+        "default_icon": "./icons/256.png",
+        "default_title": "Live Alert"
     },
     "permissions": [
         "*://www.twitch.tv/*",
