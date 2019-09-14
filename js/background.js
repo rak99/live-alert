@@ -28,21 +28,33 @@ let whatTab = '';
     }
 }); */
 
-chrome.storage.sync.get(['username'], function(items) {
-    if (localStorage.getItem('followees') !== null) {
-        console.log('follow');
-        isSync = true;
-        chrome.browserAction.setPopup({popup: "../keywords.html"});
-        let plainArr = JSON.parse(localStorage.getItem('followees'));
-        for (let elt of plainArr) {
-            names.push({"tag": elt.to_name});
-            console.log(names);
-        }
-        localStorage.setItem('names', JSON.stringify(names));
-    } else {
-        chrome.browserAction.setPopup({popup: "../username.html"});
+/**
+ * !-- TODO
+ * Do Autocomplete thing that loads names with imges, will be really cool, also make the chips have icons on them
+ */
+
+chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+    if (msg.text === 'tabChanged') {
+        console.log('tab has changed');
+        chrome.storage.sync.get(['username'], function(items) {
+            if (localStorage.getItem('followees') !== null) {
+                console.log('follow');
+                isSync = true;
+                chrome.browserAction.setPopup({popup: "../keywords.html"});
+                let plainArr = JSON.parse(localStorage.getItem('followees'));
+                for (let elt of plainArr) {
+                    names.push({"tag": elt.to_name, "image": '../icons/256.png'});
+                    console.log(names);
+                }
+                localStorage.setItem('names', JSON.stringify(names));
+            } else {
+                chrome.browserAction.setPopup({popup: "../username.html"});
+            }
+        });
     }
 });
+
+
 
 if (isSync === false) {
     chrome.browserAction.setPopup({popup: "../username.html"});

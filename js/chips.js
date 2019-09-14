@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (localStorage.getItem('names')) {
     var instances = M.Chips.init(elems, {
       data: JSON.parse(localStorage.getItem('names')) !== null ? JSON.parse(localStorage.getItem('names')) : [],
-      limit: 100,
+      limit: 10,
       // isProUser === true ? 25 : 5,
       // Add something like limit: 
       minLength: 1
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     var instances = M.Chips.init(elems, {
       data: localStorage.getItem('keywords') !== null ? JSON.parse(localStorage.getItem('keywords')) : [],
-      limit: 100,
+      limit: 10,
       // isProUser === true ? 25 : 5,
       // Add something like limit: 
       minLength: 1
@@ -72,5 +72,5 @@ var instance = M.Chips.getInstance(document.querySelectorAll('.chips'));
 
 var chip = {
     tag: 'chip content',
-    image: '', //optional
+    image: '../icons/256.png', //optional
   };

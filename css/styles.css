@@ -15,3 +15,6 @@
     display: flex;
     justify-content: flex-end;
 }
+.preloader-wrapper {
+    display: none;
+}
