@@ -1,5 +1,5 @@
 .chip-container {
-    min-width: 200px;
+    min-width: 300px;
     margin: 10px 10px 10px 10px;
 }
 .introText {
@@ -17,4 +17,7 @@
 }
 .preloader-wrapper {
     display: none;
+}
+.tooltipped {
+    width: 100%;
 }

@@ -1,6 +1,8 @@
 
 let isProUser = false;
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.chips');
 
@@ -39,6 +41,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var instances = M.Chips.init(elems, {
       data: JSON.parse(localStorage.getItem('names')) !== null ? JSON.parse(localStorage.getItem('names')) : [],
       limit: 10,
+      autocompleteOptions: {
+        data: {
+          'Apple': null,
+          'Microsoft': null,
+          'Google': null
+        },
+        limit: 10,
+        minLength: 1
+      },
       // isProUser === true ? 25 : 5,
       // Add something like limit: 
       minLength: 1
@@ -47,6 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var instances = M.Chips.init(elems, {
       data: localStorage.getItem('keywords') !== null ? JSON.parse(localStorage.getItem('keywords')) : [],
       limit: 10,
+      autocompleteOptions: {
+        data: {
+          'Apple': null,
+          'Microsoft': null,
+          'Google': null
+        },
+        limit: Infinity,
+        minLength: 1
+      },
       // isProUser === true ? 25 : 5,
       // Add something like limit: 
       minLength: 1

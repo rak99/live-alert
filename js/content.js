@@ -4,6 +4,17 @@ let data = [];
 console.log('hey');
 
 if (window.location.href === 'chrome-extension://gfipmfpmegnlpolmjoocigllppobanfe/username.html') {
+
+    document.getElementById("skipUsername").addEventListener("click", skipUsername);
+
+    function skipUsername() {
+        console.log('skip');
+        window.location.href = 'chrome-extension://gfipmfpmegnlpolmjoocigllppobanfe/keywords.html';
+        document.getElementsByClassName('spinner-layer')[0].hidden = true;
+        document.getElementById('usernameArea').hidden = false;
+        localStorage.setItem('usernameSkip', true);
+    }
+
     document.addEventListener('keydown', function(e) {
         let usernameEl = document.getElementById('input_text');
         if (usernameEl) {
@@ -20,7 +31,7 @@ if (window.location.href === 'chrome-extension://gfipmfpmegnlpolmjoocigllppobanf
                         document.getElementsByClassName('preloader-wrapper')[0].style.display = 'flex';
                         setTimeout(() => {
                             document.getElementsByClassName('preloader-wrapper')[0].style.marginTop = document.getElementsByClassName('preloader-wrapper')[0].clientHeight / 2;
-                        }, 250);
+                        }, 100);
                     }).then(() => {
                         fetch(`https://api.twitch.tv/helix/users/follows?from_id=${JSON.parse(data).data[0].id}&first=10`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
                             console.log((JSON.parse(result).data));
@@ -30,13 +41,15 @@ if (window.location.href === 'chrome-extension://gfipmfpmegnlpolmjoocigllppobanf
                             chrome.storage.sync.set({'username': usernameEl.value}, function() {
                                 console.log('Settings saved');
                             });
+                        })
+                        .then(() => {
+                            chrome.runtime.sendMessage({text: "tabChanged"});
                             setTimeout(() => {
-                                chrome.runtime.sendMessage({text: "tabChanged"});
                                 window.location.href = 'chrome-extension://gfipmfpmegnlpolmjoocigllppobanfe/keywords.html';
                                 document.getElementsByClassName('spinner-layer')[0].hidden = true;
                                 document.getElementById('usernameArea').hidden = false;
                             }, 333);
-                        });
+                        })
                     });
                 }
             } else if (e.keyCode !== 8) {

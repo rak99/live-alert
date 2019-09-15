@@ -1,9 +1,48 @@
 let keywords = [];
-let isSync = false;
 let names = [];
+let profilePic = '';
 
 const urlRegexTwitch = new RegExp('^(http(s)?:\/\/)?((w){3}.)?twitch?(\.tv)?\/.+');
 let whatTab = '';
+
+if ( (localStorage.getItem('names') && localStorage.getItem('names').length > 0) || (localStorage.getItem('keywords') && localStorage.getItem('keywords').length > 0) ) {
+    if (localStorage.getItem('keywords').length > 0) {
+        if (JSON.parse(localStorage.getItem('keywords')).length > 0) {
+            // Disable text
+            chrome.browserAction.setPopup({popup: "../keywords.html"});
+            localStorage.setItem('tooltip-disable', true);
+        }
+    } else if (localStorage.getItem('names').length > 0) {
+        if (JSON.parse(localStorage.getItem('names')).length > 0) {
+            // Disable text
+            chrome.browserAction.setPopup({popup: "../keywords.html"});
+            localStorage.setItem('tooltip-disable', true);
+        }
+    }
+}
+
+if (localStorage.getItem('usernameSkip') === 'true') {
+    chrome.browserAction.setPopup({popup: "../keywords.html"});
+}
+
+if (localStorage.getItem('usernameSkip')) {
+    console.log('1')
+    if (localStorage.getItem('usernameSkip') !== 'true') {
+        chrome.browserAction.setPopup({popup: "../username.html"});
+    }
+} else if (localStorage.getItem('names')) {
+    console.log('2')
+    if ( JSON.parse(localStorage.getItem('names')).length < 1) {
+        chrome.browserAction.setPopup({popup: "../username.html"});
+    }
+} else if (localStorage.getItem('keywords')) {
+    if (JSON.parse(localStorage.getItem('keywords')).length < 1) {
+        chrome.browserAction.setPopup({popup: "../username.html"});
+    }
+} else {
+    chrome.browserAction.setPopup({popup: "../username.html"});
+}
+
 
 /* chrome.storage.sync.get(['username'], function(items) {
     if (items.username) {
@@ -42,23 +81,25 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
                 isSync = true;
                 chrome.browserAction.setPopup({popup: "../keywords.html"});
                 let plainArr = JSON.parse(localStorage.getItem('followees'));
+                let count = 0;
                 for (let elt of plainArr) {
-                    names.push({"tag": elt.to_name, "image": '../icons/256.png'});
-                    console.log(names);
+                    fetch(`https://api.twitch.tv/helix/users?login=${elt.to_name}`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
+                        profilePic = (JSON.parse(result).data)[0].profile_image_url;
+                    })
+                    .then(() => {
+                        names.push({"tag": elt.to_name, "image": profilePic});
+                        if (count === plainArr.length) {
+                            localStorage.setItem('names', JSON.stringify(names));
+                        }
+                    });
+                    count +=1;
                 }
-                localStorage.setItem('names', JSON.stringify(names));
             } else {
                 chrome.browserAction.setPopup({popup: "../username.html"});
             }
         });
     }
 });
-
-
-
-if (isSync === false) {
-    chrome.browserAction.setPopup({popup: "../username.html"});
-}
 
 /* chrome.storage.sync.get(['followees'], function(items) {
     if (items.followees) {
@@ -79,40 +120,40 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     // ...if it matches, send a message specifying a callback too
 });
 
-chrome.storage.sync.get(['keywords'], function(items) {
-    if (items.keywords) {
-        if (items.keywords.length > 2) {
-            let i = 0;
-            let keywordsObj = JSON.parse(items.keywords);
-            for (let elt of keywordsObj) {
-                keywords.push(elt.tag);
-                let streamer = elt.tag;
-                // https://api.twitch.tv/helix/users?login=${streamer}
-                // https://api.twitch.tv/helix/users/follows?from_id=407881598
-/*                 fetch(`https://api.twitch.tv/helix/users?login=earthmother`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
-                    console.log(result);
-                    if (JSON.parse(result).data.length > 0) {
-                        // alert(`${streamer} is currently live, twitch.tv/${streamer}`);
-                    } else {
-                        console.log(keywords.indexOf(streamer));
-                        keywords = keywords.slice(keywords.indexOf(streamer), keywords.length);
-                        console.log(keywords);
-                    }
-                }); */
-            }
-            setInterval(() => {
-                for (let elt of keywords) {
-                    console.log(elt);
-                    fetch(`https://api.twitch.tv/helix/users?login=${elt}`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
-                        if (JSON.parse(result).data.length > 0) {
-                            console.log(keywords.indexOf(elt));
-                            keywords = keywords.slice(keywords.indexOf(elt), keywords.length);
-                            console.log(keywords);
-                        }
-                    });
-                    i++;
-                }
-            }, 10000);
-        }
-    }
-});
+// chrome.storage.sync.get(['keywords'], function(items) {
+//     if (items.keywords) {
+//         if (items.keywords.length > 2) {
+//             let i = 0;
+//             let keywordsObj = JSON.parse(items.keywords);
+//             for (let elt of keywordsObj) {
+//                 keywords.push(elt.tag);
+//                 let streamer = elt.tag;
+//                 // https://api.twitch.tv/helix/users?login=${streamer}
+//                 // https://api.twitch.tv/helix/users/follows?from_id=407881598
+// /*                 fetch(`https://api.twitch.tv/helix/users?login=earthmother`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
+//                     console.log(result);
+//                     if (JSON.parse(result).data.length > 0) {
+//                         // alert(`${streamer} is currently live, twitch.tv/${streamer}`);
+//                     } else {
+//                         console.log(keywords.indexOf(streamer));
+//                         keywords = keywords.slice(keywords.indexOf(streamer), keywords.length);
+//                         console.log(keywords);
+//                     }
+//                 }); */
+//             }
+//             setInterval(() => {
+//                 for (let elt of keywords) {
+//                     console.log(elt);
+//                     fetch(`https://api.twitch.tv/helix/users?login=${elt}`, { headers: { 'Client-ID': '6qoqexk4vgnl8caf4w8g14f3203eun' } }).then(r => r.text()).then(result => {
+//                         if (JSON.parse(result).data.length > 0) {
+//                             console.log(keywords.indexOf(elt));
+//                             keywords = keywords.slice(keywords.indexOf(elt), keywords.length);
+//                             console.log(keywords);
+//                         }
+//                     });
+//                     i++;
+//                 }
+//             }, 10000);
+//         }
+//     }
+// });
