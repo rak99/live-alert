@@ -1,23 +1,40 @@
-.chip-container {
-    min-width: 300px;
-    margin: 10px 10px 10px 10px;
+.selectedWord {
+    position: absolute;
+      background: rgb(1, 2, 2);
+    z-index: 1;
+    width: fit-content;
+    color: white;
+    padding: 13px;
+    margin-top: 8px;
+    font-family: Calibri;
+	font-size: 15px;
+	-moz-user-select:
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera *
 }
-.introText {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 18px;
+.selectedWord:after, .selectedWord:before {
+	bottom: 100%;
+	left: 10%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
 }
-.row {
-    min-width: max-content;
-    margin: 0;
+.selectedWord:after {
+	border-color: rgba(47, 79, 79, 0);
+	border-bottom-color: #2F4F4F;
+	border-width: 10px;
+	margin-left: -10px;
 }
-
-.btn-small {
-    display: flex;
-    justify-content: flex-end;
-}
-.preloader-wrapper {
-    display: none;
-}
-.tooltipped {
-    width: 100%;
+.selectedWord:before {
+	border-color: rgba(0, 0, 0, 0);
+	border-width: 14px;
+	margin-left: -14px;
 }
