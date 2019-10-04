@@ -21,6 +21,9 @@ loadingHalf.src = 'chrome-extension://mclbphjeilficpgimkclonokbohcbiga/icons/spi
 let loadingFull = document.createElement('img');
 loadingFull.src = 'chrome-extension://mclbphjeilficpgimkclonokbohcbiga/icons/spinner-full-eraser.png'; */
 
+let popupNode = '';
+let timeoutPopup = '';
+
 let loading3rd = document.createElement('h3');
 loading3rd.textContent = '3..';
 loading3rd.className = 'countdownTimer';
@@ -36,34 +39,22 @@ let stopFunction = false;
 function countdownTimer(el) {
     let text = el.textContent;
     console.log(text);
-    if (stopFunction === true) {
-        return;
-    }
+/*     stopFunction = false;
+
     let countdownTimeout3 = setTimeout(() => {
         count +=1;
         console.log(count);
         el.appendChild(loading3rd);
-        //if () { countdownTimeout2(); }
-        if (stopFunction === true) {
-            loading3rd.remove();
-            return;
-        } else {
-            loading3rd.remove();
-            countdownTimeout2;
-        }
+        loading3rd.remove();
+        countdownTimeout2;
     }, 1000);
     
     let countdownTimeout2 = setTimeout(() => {
         count+=1;
         console.log(count);
         el.appendChild(loadingHalf);
-        if (stopFunction === true) {
-            loadingHalf.remove();
-            return;
-        } else {
-            loadingHalf.remove();
-            countdownTimeout3;
-        }
+        loadingHalf.remove();
+        countdownTimeout3;
     }, 2000);
     
     let countdownTimeout1 = setTimeout(() => {
@@ -71,9 +62,21 @@ function countdownTimer(el) {
         console.log(count);
         el.appendChild(loadingFull);
         loadingFull.remove();
-        popup(el);
+        if (popupNode !== '' && stopFunction === true) {
+            popupNode.remove();
+        } else {
+            popup(el);
+        }
+        count = 0;
+    }, 3000); */
+
+    setTimeout(() => {
+        
     }, 3000);
+
 };
+
+// !-- MAKE SURE NOT TO SEARCH FOR NUMBERS
 
 $(function() {
     // wrap words in spans
@@ -85,12 +88,21 @@ $(function() {
 
     // bind to each span
     $('p span').hover(
-        function() { 
-            countdownTimer($(this)[0]); 
+        function() {
+            // !-- Call main hover function
+            // countdownTimer($(this)[0]);
+            timeoutPopup = setTimeout(() => {
+                if (popupNode !== '') {
+                    popupNode.remove();
+                }
+                popup($(this)[0]);
+            }, 3000);
             $('#word').text($(this).css('background-color','#ffff66').text());  
         },
-        function() { 
-            stopFunction = true; 
+        function() {
+            // stopFunction = true;
+            clearTimeout(timeoutPopup);
+            count = 0;
             $('#word').text(''); 
             $(this).css('background-color',''); 
         }
@@ -99,16 +111,19 @@ $(function() {
 
 function popup(el) {
     // Do timeout popup here!
+    if (popupNode !== '') {
+        popupNode.remove();
+    }
     console.log('Show popup!');
     let text = el.textContent
     console.log(text);
     let selectedDOM = el;
     console.log(el);
 
-    el.outerHTML = `<b>${el.outerHTML}</b>`; 
+    // el.outerHTML = `<b>${el.outerHTML}</b>`; 
     // Begin popup ---
 
-    let popupNode = document.createElement('iframe');
+    popupNode = document.createElement('iframe');
     popupNode.src = `https://www.merriam-webster.com/dictionary/${text}`;
     popupNode.className = "selectedWord";
     // Styling
@@ -131,7 +146,8 @@ function popup(el) {
                 console.log('mouse outside inside iframe!', x, popupNodePositions.x, popupNodeLeftToRight);
                 console.log(el, popupNode.getBoundingClientRect());
                 document.getElementById('defineIt-popupNode').remove();
-                $(el).contents().unwrap();
+                // Below unwraps span, which is not what we want, however keep it commented for now as it may prove useful in the future
+                // $(el).contents().unwrap();
                 window.removeEventListener('mousedown', showPopup, false);
                 let popupNodePosition = popupNode.getBoundingClientRect();
                 console.log(popupNodePosition);
@@ -139,13 +155,15 @@ function popup(el) {
                 popupNode.style.left = (el.left - popupNodePosition.left + 'px') + popupNode.style.width;
                 console.log(el.left, popupNodePosition.left, popupNode );
                 console.log(popupNode.style.left, el.left, el.left - popupNodePosition.left + 'px');
+                stopFunction = false;
             }
         }
     };
     window.addEventListener('mousedown', showPopup, false);
-    $(el).contents().unwrap();
+    // $(el).contents().unwrap();
     // End popup ---
-    return text;
+    stopFunction = false;
+    return text;    
 
 }
 
@@ -248,6 +266,7 @@ function getSelectionText(e) {
 }
 window.addEventListener('mouseup', e => {
     console.log('mouse up!');
+    stopFunction = false;
     getSelectionText(e);
 });
 
