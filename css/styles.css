@@ -4,18 +4,20 @@
     z-index: 1;
     width: fit-content;
     color: white;
-    padding: 13px;
+    padding: 1px;
     margin-top: 8px;
     font-family: Calibri;
 	font-size: 15px;
-	-moz-user-select:
+	min-height: 500px;
+	min-width: 400px;
+	-moz-user-select: none;
 	-webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
        -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera *
+                                  supported by Chrome and Opera */
 }
 .selectedWord:after, .selectedWord:before {
 	bottom: 100%;
@@ -37,4 +39,22 @@
 	border-color: rgba(0, 0, 0, 0);
 	border-width: 14px;
 	margin-left: -14px;
+}
+.countdownTimer {
+	position: absolute;
+	background: rgb(1, 2, 2);
+  z-index: 1;
+  width: fit-content;
+  color: white;
+  padding: 1px;
+  margin-top: 8px;
+  font-family: Calibri;
+  -moz-user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+	 -moz-user-select: none; /* Firefox */
+	  -ms-user-select: none; /* Internet Explorer/Edge */
+		  user-select: none; /* Non-prefixed version, currently
+								supported by Chrome and Opera */
 }
