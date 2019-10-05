@@ -131,7 +131,16 @@ function popup(el) {
     // Begin popup ---
 
     popupNode = document.createElement('iframe');
-    popupNode.src = `https://www.merriam-webster.com/dictionary/${text}`;
+    popupNode.src = `https://www.merriam-webster.com/dictionary/${text}`
+    // !-- IMPORTANT, do localstorage.setItem('definteItChrome-usages'), do +1 for every popup made, on 100 popups do
+    /**
+     * if (localStorage.getItem('definteItChrome-usages') >= 100) {
+     *   popupNode.src = `StillNeedToMakePage, it should say something like: We've noticed you've been using this extension quite often, and we'd really appreciate
+     *   it if you could turn off your adblock :( or do small $2.00 donation that will cover your cost for lifetime, we'll include you're name in the extension list of contributors and you can use
+     *    this addon with a clear conscience! we use this money to break even, not make a profit.
+     *   Thank you very much`
+     * }
+     */
     popupNode.className = "selectedWord";
     // Styling
     popupNode.id = 'defineIt-popupNode';
