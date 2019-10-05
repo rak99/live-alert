@@ -79,12 +79,19 @@ function countdownTimer(el) {
 // !-- MAKE SURE NOT TO SEARCH FOR NUMBERS
 
 $(function() {
-    // wrap words in spans
+    // wrap words in spans.
+    $(':not(a)').each(function() {
+        var $this = $(this);
+        // !-- Use this, maybe turn it into an array, check if arr.indexOf($this) !== -1 then don't do below
+        console.log($this)
+
+    });
     $('p').each(function() {
         var $this = $(this);
-        derp = $this;
+        console.log($this)
         $this.html($this.text().replace(/\b(\w+)\b/g, "<span>$1</span>"));
     });
+
 
     // bind to each span
     $('p span').hover(
