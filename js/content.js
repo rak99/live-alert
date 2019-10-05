@@ -14,13 +14,6 @@
 // middle-mouse, hovering over a word and pressing middle mouse button will open embed with that word in, need to find how to get word from a hover though
 // maybe check mouse position, nearest word to mouse till spaces, trim it and there's the word.
 
-/* let loading3rd = document.createElement('img');
-loading3rd.src = 'chrome-extension://mclbphjeilficpgimkclonokbohcbiga/icons/spinner-1st-eraser.png';
-let loadingHalf = document.createElement('img');
-loadingHalf.src = 'chrome-extension://mclbphjeilficpgimkclonokbohcbiga/icons/spinner-2nd-eraser.png';
-let loadingFull = document.createElement('img');
-loadingFull.src = 'chrome-extension://mclbphjeilficpgimkclonokbohcbiga/icons/spinner-full-eraser.png'; */
-
 let popupNode = '';
 let timeoutPopup = '';
 
@@ -36,56 +29,9 @@ loading3rd.className = 'countdownTimer';
 let count = 0;
 let stopFunction = false;
 
-function countdownTimer(el) {
-    let text = el.textContent;
-    console.log(text);
-/*     stopFunction = false;
-
-    let countdownTimeout3 = setTimeout(() => {
-        count +=1;
-        console.log(count);
-        el.appendChild(loading3rd);
-        loading3rd.remove();
-        countdownTimeout2;
-    }, 1000);
-    
-    let countdownTimeout2 = setTimeout(() => {
-        count+=1;
-        console.log(count);
-        el.appendChild(loadingHalf);
-        loadingHalf.remove();
-        countdownTimeout3;
-    }, 2000);
-    
-    let countdownTimeout1 = setTimeout(() => {
-        count+=1;
-        console.log(count);
-        el.appendChild(loadingFull);
-        loadingFull.remove();
-        if (popupNode !== '' && stopFunction === true) {
-            popupNode.remove();
-        } else {
-            popup(el);
-        }
-        count = 0;
-    }, 3000); */
-
-    setTimeout(() => {
-        
-    }, 3000);
-
-};
-
 // !-- MAKE SURE NOT TO SEARCH FOR NUMBERS
 
 $(function() {
-    // wrap words in spans.
-    $(':not(a)').each(function() {
-        var $this = $(this);
-        // !-- Use this, maybe turn it into an array, check if arr.indexOf($this) !== -1 then don't do below
-        console.log($this)
-
-    });
     $('p').each(function() {
         var $this = $(this);
         console.log($this)
