@@ -5,15 +5,17 @@ let profilePic = '';
 const urlRegexTwitch = new RegExp('^(http(s)?:\/\/)?((w){3}.)?twitch?(\.tv)?\/.+');
 let whatTab = '';
 
-if ( (localStorage.getItem('names') && localStorage.getItem('names').length > 0) || (localStorage.getItem('keywords') && localStorage.getItem('keywords').length > 0) ) {
-    if (localStorage.getItem('keywords').length > 0) {
-        if (JSON.parse(localStorage.getItem('keywords')).length > 0) {
+if ( (localStorage.getItem('names')) ) {
+    if (localStorage.getItem('names').length > 0) {
+        if (JSON.parse(localStorage.getItem('names')).length > 0) {
             // Disable text
             chrome.browserAction.setPopup({popup: "../keywords.html"});
             localStorage.setItem('tooltip-disable', true);
         }
-    } else if (localStorage.getItem('names').length > 0) {
-        if (JSON.parse(localStorage.getItem('names')).length > 0) {
+    }
+} else if (localStorage.getItem('keywords')) {
+    if (localStorage.getItem('keywords').length > 0) {
+        if (JSON.parse(localStorage.getItem('keywords')).length > 0) {
             // Disable text
             chrome.browserAction.setPopup({popup: "../keywords.html"});
             localStorage.setItem('tooltip-disable', true);
@@ -92,6 +94,11 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
                             localStorage.setItem('names', JSON.stringify(names));
                         }
                     });
+                    if (count+1 === plainArr.length) {
+                        setTimeout(() => {
+                            chrome.runtime.sendMessage({text: "followersProcessed"});
+                        }, 2000);
+                    }
                     count +=1;
                 }
             } else {

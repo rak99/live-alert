@@ -17,7 +17,41 @@
 }
 .preloader-wrapper {
     display: none;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .tooltipped {
     width: 100%;
+}
+.inputError {
+    position: relative;
+      background: rgb(1, 2, 2);
+    z-index: 1;
+    width: fit-content;
+    color: white;
+    padding: 13px;
+    margin-top: 8px;
+    font-family: Calibri;
+    font-size: 15px;  
+}
+.inputError:after, .inputError:before {
+	bottom: 100%;
+	left: 10%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.inputError:after {
+	border-color: rgba(47, 79, 79, 0);
+	border-bottom-color: #2F4F4F;
+	border-width: 10px;
+	margin-left: -10px;
+}
+.inputError:before {
+	border-color: rgba(0, 0, 0, 0);
+	border-width: 14px;
+	margin-left: -14px;
 }
